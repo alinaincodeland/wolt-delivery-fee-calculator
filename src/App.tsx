@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import DeliveryFeeCalculator from './components/DeliveryFeeCalculator';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
-    Hello world
+      <DeliveryFeeCalculator />
     </div>
   );
 }
