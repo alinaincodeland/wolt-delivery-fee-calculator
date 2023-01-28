@@ -5,33 +5,53 @@ const DeliveryFeeCalculator: React.FC = () => {
 
     const [cartValue, setCartValue] = useState<number>(0);
     const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
-    const [amountOfItems, setAmountofItems] = useState<number>(0);
+    const [amountOfItems, setAmountOfItems] = useState<number>(0);
     const [orderTime, setOrderTime] = useState<Date>(new Date());
     const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
 
 
 
-    function calculateDeliveryFee() {
-        let surcharge = 0;
+    const calculateDeliveryFee = () => {
+        let deliveryFee = 0;
 
         if (cartValue < 10) {
-            surcharge = 10 - cartValue;
-            console.log("surcharge is...", surcharge)
+            deliveryFee += 10 - cartValue;
         }
 
-        let deliveryPrice = 0;
-
-        if (deliveryDistance < 1000) {
-            deliveryPrice = 2;
-
+        if (deliveryDistance <= 1000) {
+            deliveryFee += 2;
+        } else {
+            deliveryFee += 2 + Math.ceil((deliveryDistance - 1000) / 500);
         }
 
+
+        if (amountOfItems >= 5 && amountOfItems < 12) {
+            deliveryFee += (amountOfItems - 4) * 0.5;
+        } else {
+            deliveryFee += (amountOfItems - 4) * 0.5 + 1.2;
+        }
+
+
+        if (orderTime.getUTCHours() >= 15 && orderTime.getUTCHours() <= 19 && orderTime.getUTCDay() === 5) {
+            deliveryFee *= 1.2
+        }
+
+
+        if (cartValue >= 100) {
+            deliveryFee = 0;
+        }
+
+        if (deliveryFee > 15) {
+            deliveryFee = 15;
+        }
+
+        setDeliveryDistance(deliveryFee);
     }
 
 
 
-
     return (
+        <main>
         <form>
             <label>
                 Cart value
@@ -57,7 +77,7 @@ const DeliveryFeeCalculator: React.FC = () => {
                     required
                 />
                 m
-            </label>
+                </label> 
             <br />
             <label>
                 Amount of items
@@ -83,19 +103,13 @@ const DeliveryFeeCalculator: React.FC = () => {
             </label>
             <button className="form--button" onClick={calculateDeliveryFee}>
                 Calculate Delivery Price
-            </button>
-            <br />
-            <label>
-                Delivery price
-                <input
-                    type="number"
-                    placeholder=""
-                    className="form--input"
-                    name="deliveryPrice"
-                    disabled
-                />
-            </label>
+                </button>
         </form >
+            <br />
+
+            <p>Delivery Price: {deliveryPrice}</p>
+        </main>
+
 
     )
 }
