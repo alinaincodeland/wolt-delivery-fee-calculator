@@ -1,17 +1,20 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const DeliveryFeeCalculator: React.FC = () => {
 
     const [cartValue, setCartValue] = useState<number>(0);
-    const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
-    const [amountOfItems, setAmountOfItems] = useState<number>(0);
+    const [deliveryDistance, setDeliveryDistance] = useState<number>(1);
+    const [amountOfItems, setAmountOfItems] = useState<number>(1);
     const [orderTime, setOrderTime] = useState<Date>(new Date());
     const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
 
 
 
-    const calculateDeliveryFee = () => {
+    const calculateDeliveryFee = (e: any) => {
+        e.preventDefault();
+
+        console.log("cartvalue==>", cartValue, "deliveryDistance", deliveryDistance, "amountOfItems==>", amountOfItems, "orderTime==>", orderTime)
+
         let deliveryFee = 0;
 
         if (cartValue < 10) {
@@ -45,70 +48,100 @@ const DeliveryFeeCalculator: React.FC = () => {
             deliveryFee = 15;
         }
 
-        setDeliveryDistance(deliveryFee);
+        setDeliveryPrice(deliveryFee);
     }
 
 
 
     return (
-        <main>
-        <form>
+        <div className='container'>
+            <h1>Checkout</h1>
+            <form>
+                <div className="input-field">
             <label>
-                Cart value
+                        Cart value (€)
                 <input
                     type="number"
-                    // min="0.01"
-                    // step="0.01"
-                    placeholder=""
-                    className="form--input"
-                    name="cartValue"
+                            min="1"
+                            step="any"
+                            placeholder="Value in Euro"
+                            className="input"
+                            name="cartValue"
+                            value={cartValue}
+                            onChange={(e) => { setCartValue(Number(e.target.value)) }}
                     required
-                />
-                €
-            </label>
-            <br />
+                        />
+
+
+                    </label>
+                </div>
+                <br />
+                <div className="input-field">
             <label>
-                Delivery distance
+                        Delivery distance (m)
                 <input
-                    type="number"
+                            type="text"
+                            pattern="[0-9]*"
                     placeholder=""
-                    className="form--input"
+                            className="input"
                     name="deliveryDistance"
+                            value={deliveryDistance}
+                            onChange={(e) => { setDeliveryDistance((v) => (e.target.validity.valid ? Number(e.target.value) : v)) }}
                     required
                 />
-                m
-                </label> 
-            <br />
+
+                    </label> 
+                </div>
+                <br />
+                <div className="input-field">
             <label>
                 Amount of items
                 <input
                     type="number"
-                    placeholder=""
-                    className="form--input"
-                    name="amountOfItems"
+                            placeholder=""
+                            min="1"
+                            step="1"
+                            className="input"
+                            name="amountOfItems"
+                            value={amountOfItems}
+                            onChange={(e) => {
+
+                                let newValue = e.target.valueAsNumber
+                                if (newValue > 0) {
+                                    setAmountOfItems(newValue)
+                                } else {
+                                    setAmountOfItems(amountOfItems)
+                                }
+                            }}
                     required
                 />
-            </label>
-            <br />
+                    </label>
+                </div>
+                <br />
+                <div className="input-field">
             <label>
                 Time
                 <input
                     type="datetime-local"
-                    placeholder=""
-                    className="form--input"
+
+                            className="input"
                     name="orderTime"
+                            value={orderTime.toISOString()}
+                            onChange={(e) => { setOrderTime(new Date(e.target.value)) }}
                     required
                 />
                 <br />
-            </label>
-            <button className="form--button" onClick={calculateDeliveryFee}>
+                    </label>
+                </div>
+                <button className="button" onClick={calculateDeliveryFee}>
                 Calculate Delivery Price
                 </button>
         </form >
             <br />
 
-            <p>Delivery Price: {deliveryPrice}</p>
-        </main>
+            <p>Delivery Price: {deliveryPrice}€</p>
+        </div >
+
 
 
     )
