@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './styles.css';
 import DeliveryFeeCalculator from './components/DeliveryFeeCalculator';
 
 const App: React.FC = () => {
