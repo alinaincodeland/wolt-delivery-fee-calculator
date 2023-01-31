@@ -11,61 +11,57 @@ const DeliveryFeeCalculator: React.FC = () => {
     const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
 
 
-    const handleCartValue = (e: any) => {
-        e.preventDefault();
-        console.log("onValueChange fired");
-        if (e.target.value === undefined) {
+    const handleCartValue = (value: string | undefined) => {
+
+        let newCartValue = Number(value)
+        setCartValue(Number(value))
+
+        if (!newCartValue) {
             setCartValue(0);
         } else {
-            setCartValue(Number(e.target.value));
+            setCartValue(Number(newCartValue));
         }
-        // setCartValue(e.target.value)
     }
 
-    console.log(cartValue);
-    console.log(typeof cartValue);
-    // console.log(Number(cartValue))
+
+    const calculateDeliveryFee = (e: any) => {
+        e.preventDefault();
+
+        let deliveryFee = 0;
+
+        if (Number(cartValue) < 10) {
+            deliveryFee += 10 - Number(cartValue);
+        }
+
+        if (deliveryDistance <= 1000) {
+            deliveryFee += 2;
+        } else {
+            deliveryFee += 2 + Math.ceil((deliveryDistance - 1000) / 500);
+        }
 
 
-
-    // const calculateDeliveryFee = (e: any) => {
-    //     e.preventDefault();
-
-    //     let deliveryFee = 0;
-
-    //     if (Number(cartValue) < 10) {
-    //         deliveryFee += 10 - Number(cartValue);
-    //     }
-
-    //     if (deliveryDistance <= 1000) {
-    //         deliveryFee += 2;
-    //     } else {
-    //         deliveryFee += 2 + Math.ceil((deliveryDistance - 1000) / 500);
-    //     }
+        if (amountOfItems >= 5 && amountOfItems < 12) {
+            deliveryFee += (amountOfItems - 4) * 0.5;
+        } else {
+            deliveryFee += (amountOfItems - 4) * 0.5 + 1.2;
+        }
 
 
-    //     if (amountOfItems >= 5 && amountOfItems < 12) {
-    //         deliveryFee += (amountOfItems - 4) * 0.5;
-    //     } else {
-    //         deliveryFee += (amountOfItems - 4) * 0.5 + 1.2;
-    //     }
+        if (orderTime.getUTCHours() >= 15 && orderTime.getUTCHours() <= 19 && orderDay.getUTCDay() === 5) {
+            deliveryFee *= 1.2
+        }
 
 
-    //     if (orderTime.getUTCHours() >= 15 && orderTime.getUTCHours() <= 19 && orderDay.getUTCDay() === 5) {
-    //         deliveryFee *= 1.2
-    //     }
+        if (Number(cartValue) >= 100) {
+            deliveryFee = 0;
+        }
 
+        if (deliveryFee > 15) {
+            deliveryFee = 15;
+        }
 
-    //     if (Number(cartValue) >= 100) {
-    //         deliveryFee = 0;
-    //     }
-
-    //     if (deliveryFee > 15) {
-    //         deliveryFee = 15;
-    //     }
-
-    //     setDeliveryPrice(deliveryFee);
-    // }
+        setDeliveryPrice(deliveryFee);
+    }
 
 
     return (
@@ -78,11 +74,11 @@ const DeliveryFeeCalculator: React.FC = () => {
                         Cart value (€)
                     </label >
                     <CurrencyInput
-                        prefix='€ '
+                        suffix=' €'
                         allowDecimals
                         decimalSeparator="."
                         id="input-currency-field"
-                        name="input-currency-field-name"
+                        name="input-currency-field"
                         step={1}
                         value={cartValue}
                         onValueChange={handleCartValue} />
