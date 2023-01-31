@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const DeliveryFeeCalculator: React.FC = () => {
 
-    const [cartValue, setCartValue] = useState("");
+    const [cartValue, setCartValue] = useState<number>(0);
     const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
     const [amountOfItems, setAmountOfItems] = useState<number>(0);
     const [orderDay, setOrderDay] = useState<Date>(new Date());
@@ -12,7 +12,7 @@ const DeliveryFeeCalculator: React.FC = () => {
 
     const handleCartValue = (e: any) => {
         e.preventDefault();
-        setCartValue(e.target.value)
+        setCartValue(Number(e.target.value))
     }
 
     console.log(cartValue);
