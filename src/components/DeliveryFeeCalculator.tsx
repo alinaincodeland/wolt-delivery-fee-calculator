@@ -78,8 +78,7 @@ const DeliveryFeeCalculator: React.FC = () => {
                         decimalSeparator="."
                         id="input-currency-field"
                         name="input-currency-field"
-                        allowNegativeValue
-                        step={1}
+                        step={0.01}
                         defaultValue={cartValue}
                         onValueChange={handleCartValue} />
 
