@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CurrencyInput from 'react-currency-input-field';
 
 const DeliveryFeeCalculator: React.FC = () => {
 
@@ -12,65 +13,82 @@ const DeliveryFeeCalculator: React.FC = () => {
 
     const handleCartValue = (e: any) => {
         e.preventDefault();
-        setCartValue(Number(e.target.value))
+        console.log("onValueChange fired");
+        if (e.target.value === undefined) {
+            setCartValue(0);
+        } else {
+            setCartValue(Number(e.target.value));
+        }
+        // setCartValue(e.target.value)
     }
 
     console.log(cartValue);
     console.log(typeof cartValue);
-    console.log(Number(cartValue))
+    // console.log(Number(cartValue))
 
 
 
-    const calculateDeliveryFee = (e: any) => {
-        e.preventDefault();
+    // const calculateDeliveryFee = (e: any) => {
+    //     e.preventDefault();
+
+    //     let deliveryFee = 0;
+
+    //     if (Number(cartValue) < 10) {
+    //         deliveryFee += 10 - Number(cartValue);
+    //     }
+
+    //     if (deliveryDistance <= 1000) {
+    //         deliveryFee += 2;
+    //     } else {
+    //         deliveryFee += 2 + Math.ceil((deliveryDistance - 1000) / 500);
+    //     }
 
 
-
-        let deliveryFee = 0;
-
-        if (Number(cartValue) < 10) {
-            deliveryFee += 10 - Number(cartValue);
-        }
-
-        if (deliveryDistance <= 1000) {
-            deliveryFee += 2;
-        } else {
-            deliveryFee += 2 + Math.ceil((deliveryDistance - 1000) / 500);
-        }
+    //     if (amountOfItems >= 5 && amountOfItems < 12) {
+    //         deliveryFee += (amountOfItems - 4) * 0.5;
+    //     } else {
+    //         deliveryFee += (amountOfItems - 4) * 0.5 + 1.2;
+    //     }
 
 
-        if (amountOfItems >= 5 && amountOfItems < 12) {
-            deliveryFee += (amountOfItems - 4) * 0.5;
-        } else {
-            deliveryFee += (amountOfItems - 4) * 0.5 + 1.2;
-        }
+    //     if (orderTime.getUTCHours() >= 15 && orderTime.getUTCHours() <= 19 && orderDay.getUTCDay() === 5) {
+    //         deliveryFee *= 1.2
+    //     }
 
 
-        if (orderTime.getUTCHours() >= 15 && orderTime.getUTCHours() <= 19 && orderDay.getUTCDay() === 5) {
-            deliveryFee *= 1.2
-        }
+    //     if (Number(cartValue) >= 100) {
+    //         deliveryFee = 0;
+    //     }
 
+    //     if (deliveryFee > 15) {
+    //         deliveryFee = 15;
+    //     }
 
-        if (Number(cartValue) >= 100) {
-            deliveryFee = 0;
-        }
-
-        if (deliveryFee > 15) {
-            deliveryFee = 15;
-        }
-
-        setDeliveryPrice(deliveryFee);
-    }
+    //     setDeliveryPrice(deliveryFee);
+    // }
 
 
     return (
         <div className='container'>
             <h1>Checkout</h1>
+            <hr />
             <form>
                 <div className="input-field">
                     <label>
                         Cart value (€)
-                        <input
+                    </label >
+                    <CurrencyInput
+                        prefix='€ '
+                        allowDecimals
+                        decimalSeparator="."
+                        id="input-currency-field"
+                        name="input-currency-field-name"
+                        step={1}
+                        value={cartValue}
+                        onValueChange={handleCartValue} />
+
+
+                    {/* <input
                             type="number"
                             min="1"
                             step="any"
@@ -81,91 +99,95 @@ const DeliveryFeeCalculator: React.FC = () => {
                             value={cartValue}
                             onChange={handleCartValue}
                             required
-                        />
-                    </label>
+                        /> */}
+                    {/* </label> */}
                 </div>
                 <br />
                 <div className="input-field">
                     <label>
                         Delivery distance (m)
-                        <input
-                            type="number"
-                            // pattern="[0-9]*"
-                            placeholder=""
-                            className="input"
-                            name="deliveryDistance"
-                            value={deliveryDistance || ""}
-                            onChange={(e) => {
-                                setDeliveryDistance((v) => (e.target.validity.valid ? Number(e.target.value) : v))
-                            }}
-                            required
-                        />
                     </label>
+                    <input
+                        type="number"
+                        // pattern="[0-9]*"
+                        placeholder=""
+                        className="input"
+                        name="deliveryDistance"
+                        value={deliveryDistance || ""}
+                        onChange={(e) => {
+                            setDeliveryDistance((v) => (e.target.validity.valid ? Number(e.target.value) : v))
+                        }}
+                        required
+                    />
                 </div>
                 <br />
                 <div className="input-field">
                     <label>
                         Amount of items
-                        <input
-                            type="number"
-                            placeholder=""
-                            min="1"
-                            step="1"
-                            className="input"
-                            name="amountOfItems"
-                            value={amountOfItems}
-                            onChange={(e) => {
-
-                                let newValue = e.target.valueAsNumber
-                                if (newValue > 0) {
-                                    setAmountOfItems(newValue)
-                                } else {
-                                    setAmountOfItems(amountOfItems)
-                                }
-                            }}
-                            required
-                        />
                     </label>
+                    <input
+                        type="number"
+                        placeholder=""
+                        min="1"
+                        step="1"
+                        className="input"
+                        name="amountOfItems"
+                        value={amountOfItems}
+                        onChange={(e) => {
+
+                            let newValue = e.target.valueAsNumber
+                            if (newValue > 0) {
+                                setAmountOfItems(newValue)
+                            } else {
+                                setAmountOfItems(amountOfItems)
+                            }
+                        }}
+                        required
+                    />
                 </div>
                 <br />
                 <div className="input-field">
                     <label>
                         Order day
-                        <input
-                            type="date"
-                            className="input"
-                            name="orderDay"
-                            value={orderDay.toISOString()}
-                            onChange={(e) => { setOrderDay(new Date(e.target.value)) }}
-                            required
-                        />
-                        <br />
                     </label>
+                    <input
+                        type="date"
+                        className="input"
+                        name="orderDay"
+                        value={orderDay.toISOString()}
+                        onChange={(e) => { setOrderDay(new Date(e.target.value)) }}
+                        required
+                    />
+                    <br />
                 </div>
                 <br />
                 <div className="input-field">
-
                     <label>
                         Order time
-                        <input
-                            type="time"
-                            className="input"
-                            name="orderTime"
-                            value={orderTime.toISOString()}
-                            onChange={(e) => { setOrderTime(new Date(e.target.value)) }}
-                            required
-                        />
-                        <br />
+
                     </label>
+                    <input
+                        type="time"
+                        className="input"
+                        name="orderTime"
+                        value={orderTime.toISOString()}
+                        onChange={(e) => { setOrderTime(new Date(e.target.value)) }}
+                        required
+                    />
                 </div>
                 <br />
-                <button className="button" onClick={calculateDeliveryFee}>
-                    Calculate Delivery Price
+                <button className="button"
+                // onClick={calculateDeliveryFee}
+                >
+                    Calculate the delivery price
                 </button>
             </form >
             <br />
+            <div className="delivery-price">
+                <p>Delivery Price </p>
+                <p>{deliveryPrice}€</p>
+            </div>
 
-            <p>Delivery Price: {deliveryPrice}€</p>
         </div >
 
 

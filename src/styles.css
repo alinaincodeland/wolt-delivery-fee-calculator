@@ -1,5 +1,4 @@
 * {
-  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
@@ -12,13 +11,12 @@ body {
   max-width: 35rem;
   width: 100%;
   background-color: rgb(255, 255, 255);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 1rem 0px, rgba(0, 0, 0, 0.12) 0px 1rem 1rem 0px;
   border: 1px solid rgba(32, 33, 37, 0.12);
   border-radius: 1rem;
   margin: 5rem auto;
   padding: 1.5rem;
   line-height: 1.4;
-
 }
 
 h1 {
@@ -27,25 +25,19 @@ h1 {
   font-weight: 600;
 }
 
+hr {
+  color: lightgray;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
 form {
   width: 100%;
 }
 
-/* Hide arrows from the input fields on Chrome and Firefox */
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
 .input-field {
   display: flex;
-  flex-flow: row;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   font-size: 1rem;
   line-height: 1.5rem;
@@ -65,19 +57,56 @@ input[type=number] {
   padding: 8px 10px;
   border-radius: 3px;
   transition: all 0.3s ease;
-
+  max-width: 16rem;
 }
-button {
 
+.input-field input[type="date"] {
+  margin-right: -3rem;
+}
+
+button {
   width: 100%;
   height: 3.375rem;
   padding: 0 1rem;
   border: medium none;
   border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0.75rem 0px, rgba(0, 0, 0, 0.12) 0px 0.75rem 0.75rem 0px;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0.75rem 0px,
+    rgba(0, 0, 0, 0.12) 0px 0.75rem 0.75rem 0px;
   background-color: rgb(0, 157, 224);
   font-size: 1rem;
   font-weight: 700;
   color: white;
   cursor: pointer;
 }
+
+
+.delivery-price{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly
+}
+
+
+
+/* Hide arrows from the input fields on Chrome and Firefox */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media (max-width: 768px) {
+
+  .input-field input{
+    max-width: 10rem;
+  }
+
+  .input-field input[type="date"] {
+    margin-right: -3rem;
+  }
+} 
