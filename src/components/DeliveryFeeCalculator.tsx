@@ -18,7 +18,7 @@ const DeliveryFeeCalculator: React.FC = () => {
 
         if (!newCartValue) {
             setCartValue(0);
-        } else {
+        } else if (newCartValue !== cartValue) {
             setCartValue(Number(newCartValue));
         }
     }
@@ -74,13 +74,13 @@ const DeliveryFeeCalculator: React.FC = () => {
                         Cart value (€)
                     </label >
                     <CurrencyInput
-                        suffix=' €'
-                        allowDecimals
+                        suffix=" €"
                         decimalSeparator="."
                         id="input-currency-field"
                         name="input-currency-field"
+                        allowNegativeValue
                         step={1}
-                        value={cartValue}
+                        defaultValue={cartValue}
                         onValueChange={handleCartValue} />
 
 
