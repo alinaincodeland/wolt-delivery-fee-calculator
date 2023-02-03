@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-const DeliveryFeeCalculator: React.FC = () => {
+const DeliveryFeeCalculator: FC = () => {
 
     const [cartValue, setCartValue] = useState<number>(0);
     const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
@@ -14,15 +14,30 @@ const DeliveryFeeCalculator: React.FC = () => {
     const handleCartValue = (value: string | undefined) => {
 
         let newCartValue = Number(value)
-        setCartValue(Number(value))
+        //Why this line? 
+        // setCartValue(Number(value))
+
 
         if (!newCartValue) {
-            setCartValue(0);
+            // setCartValue(0);
+            alert("Please enter the cart value")
         } else if (newCartValue !== cartValue) {
             setCartValue(Number(newCartValue));
         }
+
+        console.log(cartValue)
     }
 
+    const handleDeliveryDistance = (e: any) => {
+
+        // let newDistanceValue = e.target.value;
+
+        // const isValid = /^\d+$/.test(newDistanceValue) && newDistanceValue > 0
+        // setDeliveryDistance(isValid ? newDistanceValue : "")
+        // console.log(deliveryDistance)
+        setDeliveryDistance(e.target.value)
+
+    }
 
     const calculateDeliveryFee = (e: any) => {
         e.preventDefault();
@@ -60,6 +75,9 @@ const DeliveryFeeCalculator: React.FC = () => {
             deliveryFee = 15;
         }
 
+
+        console.log("cartValue", cartValue, "deliveryDistance", deliveryDistance, "amount of items", amountOfItems, orderDay, orderTime)
+
         setDeliveryPrice(deliveryFee);
     }
 
@@ -80,7 +98,9 @@ const DeliveryFeeCalculator: React.FC = () => {
                         name="input-currency-field"
                         step={0.01}
                         defaultValue={cartValue}
-                        onValueChange={handleCartValue} />
+                        onValueChange={handleCartValue}
+                        placeholder="Type the cart value"
+                    />
 
 
                     {/* <input
@@ -104,14 +124,14 @@ const DeliveryFeeCalculator: React.FC = () => {
                     </label>
                     <input
                         type="number"
-                        // pattern="[0-9]*"
+                        min="0"
+                        pattern="[0-9]*"
                         placeholder=""
                         className="input"
                         name="deliveryDistance"
+
                         value={deliveryDistance || ""}
-                        onChange={(e) => {
-                            setDeliveryDistance((v) => (e.target.validity.valid ? Number(e.target.value) : v))
-                        }}
+                        onChange={handleDeliveryDistance}
                         required
                     />
                 </div>
@@ -122,12 +142,13 @@ const DeliveryFeeCalculator: React.FC = () => {
                     </label>
                     <input
                         type="number"
+                        pattern="[0-9]*"
                         placeholder=""
                         min="1"
                         step="1"
                         className="input"
                         name="amountOfItems"
-                        value={amountOfItems}
+                        value={amountOfItems || ""}
                         onChange={(e) => {
 
                             let newValue = e.target.valueAsNumber
@@ -172,15 +193,15 @@ const DeliveryFeeCalculator: React.FC = () => {
                 </div>
                 <br />
                 <button className="button"
-                // onClick={calculateDeliveryFee}
+                    onClick={calculateDeliveryFee}
                 >
                     Calculate the delivery price
                 </button>
             </form >
             <br />
             <div className="delivery-price">
-                <p>Delivery Price </p>
-                <p>{deliveryPrice}€</p>
+                <h3>Delivery Price </h3>
+                <h3 className='delivery-price-calculated'>{deliveryPrice}€</h3>
             </div>
 
         </div >
