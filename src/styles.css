@@ -60,6 +60,12 @@ form {
   max-width: 16rem;
 }
 
+.input-field input:focus {
+  border: 1px solid rgb(0, 157, 224);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0.75rem 0px,
+  rgba(0, 0, 0, 0.12) 0px 0.75rem 0.75rem 0px;
+}
+
 .input-field input[type="date"] {
   margin-right: -3rem;
 }
@@ -72,7 +78,7 @@ button {
   border-radius: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 0.75rem 0px,
     rgba(0, 0, 0, 0.12) 0px 0.75rem 0.75rem 0px;
-  background-color: rgb(0, 157, 224);
+  background-color:rgb(0, 157, 224);
   font-size: 1rem;
   font-weight: 700;
   color: white;
@@ -83,9 +89,8 @@ button {
 .delivery-price{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly
+  justify-content:space-between
 }
-
 
 
 /* Hide arrows from the input fields on Chrome and Firefox */
