@@ -95,6 +95,7 @@ const DeliveryFeeCalculator: FC = () => {
                         suffix=" €"
                         decimalSeparator="."
                         id="input-currency-field"
+                        data-testid="input-currency-field"
                         name="input-currency-field"
                         step={0.01}
                         defaultValue={cartValue}
