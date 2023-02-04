@@ -93,6 +93,7 @@ const DeliveryFeeCalculator: FC = () => {
                     <CurrencyInput
                         suffix=" €"
                         decimalSeparator="."
+                        allowNegativeValue={false}
                         id="input-currency-field"
                         data-testid="input-currency-field"
                         name="input-currency-field"
