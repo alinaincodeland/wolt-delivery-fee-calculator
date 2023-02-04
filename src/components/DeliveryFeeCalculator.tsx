@@ -19,13 +19,12 @@ const DeliveryFeeCalculator: FC = () => {
 
 
         if (!newCartValue) {
-            // setCartValue(0);
-            alert("Please enter the cart value")
+            setCartValue(0);
         } else if (newCartValue !== cartValue) {
             setCartValue(Number(newCartValue));
         }
 
-        console.log(cartValue)
+        // console.log(cartValue)
     }
 
     const handleDeliveryDistance = (e: any) => {
@@ -76,7 +75,7 @@ const DeliveryFeeCalculator: FC = () => {
         }
 
 
-        console.log("cartValue", cartValue, "deliveryDistance", deliveryDistance, "amount of items", amountOfItems, orderDay, orderTime)
+        // console.log("cartValue", cartValue, "deliveryDistance", deliveryDistance, "amount of items", amountOfItems, orderDay, orderTime)
 
         setDeliveryPrice(deliveryFee);
     }
