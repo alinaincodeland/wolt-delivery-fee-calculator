@@ -1,3 +1,5 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
 * {
   padding: 0;
   box-sizing: border-box;
@@ -5,6 +7,7 @@
 
 body {
   background-color: rgb(0, 157, 224);
+  font-family: 'Fjalla One', sans-serif;
 }
 
 .container {
@@ -42,6 +45,7 @@ form {
   font-size: 1rem;
   line-height: 1.5rem;
   font-weight: 500;
+  font-family: 'Fjalla One', sans-serif;
 }
 
 .input-field label {
