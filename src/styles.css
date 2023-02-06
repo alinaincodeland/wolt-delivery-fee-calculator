@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
 * {
   padding: 0;
   box-sizing: border-box;
@@ -47,7 +48,6 @@ form {
 .input-field label {
   width: 12.5rem;
   color: rgba(32, 33, 37, 1);
-  /* margin-right: 0.5rem; */
 }
 
 .input-info-field {
@@ -55,10 +55,13 @@ form {
 }
 
 .info-message {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  width: 16rem;
   font-size: small;
-  color: #00529b;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 1rem;
+  text-align: center;
+  color: rgb(211, 55, 107);
+  margin-bottom: 1rem;
 }
 
 .input-field input {
@@ -113,5 +116,8 @@ input[type="number"] {
   .input-field input {
     max-width: 10rem;
   }
-}
 
+  .info-message {
+    max-width: 10rem;
+  }
+}
