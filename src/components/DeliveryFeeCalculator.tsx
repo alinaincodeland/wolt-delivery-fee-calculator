@@ -7,18 +7,20 @@ const DeliveryFeeCalculator: FC = () => {
     const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
     const [amountOfItems, setAmountOfItems] = useState<number>(0);
     const [orderDate, setOrderDate] = useState<Date>(new Date());
-    const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
+    const [deliveryPrice, setDeliveryPrice] = useState<string>("0");
 
+    //TODO 1. Improve inputs validation logic 
 
-    const cartValueIsValid = cartValue.toString() !== "" && cartValue !== 0;
-    const distanceIsValid = deliveryDistance.toString() !== "" && deliveryDistance !== 0;
-    const amountItemsIsValid = amountOfItems.toString() !== "" && amountOfItems !== 0;
+    const isEmptyOrZero = (field: number) => {
+        return field.toString() === "" || field === 0;
+    }
 
+    // const cartValueIsValid = cartValue.toString() !== "" && cartValue !== 0;
+    // const distanceIsValid = deliveryDistance.toString() !== "" && deliveryDistance !== 0;
+    // const amountItemsIsValid = amountOfItems.toString() !== "" && amountOfItems !== 0;
 
     const handleCartValue = (value: string | undefined) => {
-
         let newCartValue = Number(value)
-
         if (!newCartValue) {
             setCartValue(0);
         } else if (newCartValue !== cartValue) {
@@ -27,22 +29,27 @@ const DeliveryFeeCalculator: FC = () => {
     }
 
 
+    const getValidNumberValue = (e: any) => {
+        let newValue = e.target.value;
+        if (newValue.charAt(0) === '0') {
+            newValue = newValue.slice(1);
+        }
+        const isValid = /^\d+$/.test(newValue) && newValue > 0
+        return isValid ? newValue : '';
+    } 
+
     const handleDeliveryDistance = (e: any) => {
-        const newValue = e.target.value;
-        const isValid = /^\d+$/.test(newValue) && newValue > 0 && newValue.replace(/^0+/, '');
-        console.log(newValue)
-        setDeliveryDistance(isValid ? newValue : '');
-
-
+        setDeliveryDistance(getValidNumberValue(e));
     }
 
     const handleAmountOfItems = (e: any) => {
-        const newValue = e.target.value;
-        const isValid = /^\d+$/.test(newValue) && newValue > 0;
-        setAmountOfItems(isValid ? newValue : '');
+        setAmountOfItems(getValidNumberValue(e));
+
     }
 
-
+    const handleOrderDate = (e: any) => {
+        setOrderDate(new Date(e.target.value))
+    }
 
 
     const calculateDeliveryFee = (e: any) => {
@@ -74,7 +81,7 @@ const DeliveryFeeCalculator: FC = () => {
 
         if (orderDate.getUTCHours() >= 15 && orderDate.getUTCHours() <= 19 &&
             orderDate.getUTCDay() === 5) {
-            deliveryFee *= 1.2
+            deliveryFee *= 1.2;
         }
 
         if (Number(cartValue) >= 100) {
@@ -85,9 +92,8 @@ const DeliveryFeeCalculator: FC = () => {
             deliveryFee = 15;
         }
 
-        deliveryFee.toFixed(2)
 
-        setDeliveryPrice(deliveryFee);
+        setDeliveryPrice(deliveryFee.toFixed(2));
     }
 
 
@@ -101,7 +107,6 @@ const DeliveryFeeCalculator: FC = () => {
                         Cart value (€)
                     </label >
                     <div className='input-info-field'>
-                        <div className="info-message">{!cartValueIsValid && "Enter the cart value"}</div>
                         <CurrencyInput
                             suffix=" €"
                             decimalSeparator="."
@@ -114,15 +119,14 @@ const DeliveryFeeCalculator: FC = () => {
                             onValueChange={handleCartValue}
                             placeholder="Type the cart value"
                         />
+                        <div className="info-message">{isEmptyOrZero(cartValue) && "Enter cart value"}</div>
                     </div>
                 </div>
-                <br />
                 <div className="input-field">
                     <label>
                         Delivery distance (m)
                     </label>
                     <div className='input-info-field'>
-                        <div className="info-message">{!distanceIsValid && "Enter the delivery distance"}</div>
                         <input
                             type="text"
                             pattern="[0-9]*"
@@ -135,15 +139,14 @@ const DeliveryFeeCalculator: FC = () => {
                             onChange={handleDeliveryDistance}
                             required
                         />
+                        <div className="info-message">{isEmptyOrZero(deliveryDistance) && "Enter delivery distance"}</div>
                     </div>
                 </div>
-                <br />
                 <div className="input-field">
                     <label>
                         Amount of items
                     </label>
                     <div className='input-info-field'>
-                        <div className="info-message">{!amountItemsIsValid && "Enter the amount of items"}</div>
                         <input
                             type="text"
                             pattern="[0-9]*"
@@ -157,28 +160,28 @@ const DeliveryFeeCalculator: FC = () => {
                             onChange={handleAmountOfItems}
                             required
                         />
+                        <div className="info-message">{isEmptyOrZero(amountOfItems) && "Enter amount of items"}</div>
                     </div>
                 </div>
-                <br />
                 <div className="input-field">
                     <label>
                         Order date and time
                     </label>
                     <div className='input-info-field'>
-                    <input
-                        type="datetime-local"
-                        className="input"
-                        name="orderDate"
-                        value={orderDate.toISOString().split('.')[0]}
-                        onChange={e => setOrderDate(new Date(e.target.value))}
-                        required />
+                        <input
+                            type="datetime-local"
+                            className="input"
+                            name="orderDate"
+                            value={orderDate.toISOString().split('.')[0]}
+                            onChange={handleOrderDate}
+                            required />
                     </div>
                 </div>
                 <br />
                 <button className="button"
                     onClick={calculateDeliveryFee}
                 >
-                    Calculate the delivery price
+                    Calculate delivery price
                 </button>
             </form >
             <br />
