@@ -29,9 +29,7 @@ describe("Amount of items field", () => {
 
     const field = screen.getByTestId("amount-items-field");
 
-    userEvent.type(field, "1");
-    userEvent.type(field, "0");
-    userEvent.type(field, ".");
+    userEvent.type(field, "10.");
 
     expect(field).toHaveDisplayValue("");
   });

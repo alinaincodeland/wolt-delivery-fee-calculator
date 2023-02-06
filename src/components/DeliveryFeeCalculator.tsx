@@ -9,15 +9,23 @@ const DeliveryFeeCalculator: FC = () => {
     const [orderDate, setOrderDate] = useState<Date>(new Date());
     const [deliveryPrice, setDeliveryPrice] = useState<string>("0");
 
-    //TODO 1. Improve inputs validation logic 
+
+    /**
+     * Returns true if a field is empty or zero.
+     * 
+     * @param {number} field - The input field to be checked.
+     * @returns {boolean} True if the field is empty or zero, false otherwise.
+     */
 
     const isEmptyOrZero = (field: number) => {
         return field.toString() === "" || field === 0;
     }
 
-    // const cartValueIsValid = cartValue.toString() !== "" && cartValue !== 0;
-    // const distanceIsValid = deliveryDistance.toString() !== "" && deliveryDistance !== 0;
-    // const amountItemsIsValid = amountOfItems.toString() !== "" && amountOfItems !== 0;
+    /**
+     * Updates the cartValue state variable with a new value.
+     * 
+     * @param {string | undefined} value - The new value to update the cartValue state variable.
+     */
 
     const handleCartValue = (value: string | undefined) => {
         let newCartValue = Number(value)
@@ -29,6 +37,15 @@ const DeliveryFeeCalculator: FC = () => {
     }
 
 
+    /**
+     * Returns the numeric value of an input event if it is valid, 
+     * otherwise returns an empty string.
+     * 
+     * @param {any} e - The input event.
+     * @returns {string} The numeric value of the input event if it is valid, 
+     * otherwise returns an empty string.
+     */
+
     const getValidNumberValue = (e: any) => {
         let newValue = e.target.value;
         if (newValue.charAt(0) === '0') {
@@ -36,21 +53,46 @@ const DeliveryFeeCalculator: FC = () => {
         }
         const isValid = /^\d+$/.test(newValue) && newValue > 0
         return isValid ? newValue : '';
-    } 
+    }
+
+    /**
+     * Updates the deliveryDistance state variable with a new value.
+     * 
+     * @param {any} e - The input event that triggers the update.
+     */
 
     const handleDeliveryDistance = (e: any) => {
         setDeliveryDistance(getValidNumberValue(e));
     }
+
+    /**
+     * Updates the amountOfItems state variable with a new value.
+     * 
+     * @param {any} e - The input event that triggers the update.
+     */
 
     const handleAmountOfItems = (e: any) => {
         setAmountOfItems(getValidNumberValue(e));
 
     }
 
+    /**
+     * Updates the orderDate state variable with a new value.
+     * 
+     * @param {any} e - The input event that triggers the update.
+     */
+
     const handleOrderDate = (e: any) => {
         setOrderDate(new Date(e.target.value))
     }
 
+
+    /**
+    * Calculates and sets the delivery fee based on the current cart value, delivery distance,
+    * amount of items, and order date
+     * 
+     * @param {any} e - The submit event.
+     */
 
     const calculateDeliveryFee = (e: any) => {
         e.preventDefault();
