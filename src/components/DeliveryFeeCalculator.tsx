@@ -10,6 +10,11 @@ const DeliveryFeeCalculator: FC = () => {
     const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
 
 
+    const cartValueIsValid = cartValue.toString() !== "" && cartValue !== 0;
+    const distanceIsValid = deliveryDistance.toString() !== "" && deliveryDistance !== 0;
+    const amountItemsIsValid = amountOfItems.toString() !== "" && amountOfItems !== 0;
+
+
     const handleCartValue = (value: string | undefined) => {
 
         let newCartValue = Number(value)
@@ -24,9 +29,10 @@ const DeliveryFeeCalculator: FC = () => {
 
     const handleDeliveryDistance = (e: any) => {
         const newValue = e.target.value;
-        const isValid = /^\d+$/.test(newValue) && newValue > 0;
-        setDeliveryDistance(isValid ? newValue : '');
+        const isValid = /^\d+$/.test(newValue) && newValue > 0 && newValue.replace(/^0+/, '');
         console.log(newValue)
+        setDeliveryDistance(isValid ? newValue : '');
+
 
     }
 
@@ -34,15 +40,15 @@ const DeliveryFeeCalculator: FC = () => {
         const newValue = e.target.value;
         const isValid = /^\d+$/.test(newValue) && newValue > 0;
         setAmountOfItems(isValid ? newValue : '');
-        console.log(newValue)
-
     }
+
+
+
 
     const calculateDeliveryFee = (e: any) => {
         e.preventDefault();
 
         if (!cartValue || !deliveryDistance || !amountOfItems || !orderDate) {
-            alert('Please insert all values');
             return;
         }
 
@@ -94,62 +100,71 @@ const DeliveryFeeCalculator: FC = () => {
                     <label>
                         Cart value (€)
                     </label >
-                    <CurrencyInput
-                        suffix=" €"
-                        decimalSeparator="."
-                        allowNegativeValue={false}
-                        id="input-currency-field"
-                        data-testid="input-currency-field"
-                        name="input-currency-field"
-                        step={0.01}
-                        defaultValue={cartValue}
-                        onValueChange={handleCartValue}
-                        placeholder="Type the cart value"
-                    />
+                    <div className='input-info-field'>
+                        <div className="info-message">{!cartValueIsValid && "Enter the cart value"}</div>
+                        <CurrencyInput
+                            suffix=" €"
+                            decimalSeparator="."
+                            allowNegativeValue={false}
+                            id="input-currency-field"
+                            data-testid="input-currency-field"
+                            name="input-currency-field"
+                            step={0.01}
+                            defaultValue={cartValue}
+                            onValueChange={handleCartValue}
+                            placeholder="Type the cart value"
+                        />
+                    </div>
                 </div>
                 <br />
                 <div className="input-field">
                     <label>
                         Delivery distance (m)
                     </label>
-
-                    <input
-                        type="text"
-                        pattern="[0-9]*" 
-                        min="1"
-                        inputMode="decimal"
-                        placeholder="Type the delivery distance in meters"
-                        className="input"
-                        name="deliveryDistance"
-                        value={deliveryDistance}
-                        onChange={handleDeliveryDistance}
-                        required
-                    />
+                    <div className='input-info-field'>
+                        <div className="info-message">{!distanceIsValid && "Enter the delivery distance"}</div>
+                        <input
+                            type="text"
+                            pattern="[0-9]*"
+                            min="1"
+                            inputMode="decimal"
+                            placeholder="Type the delivery distance in meters"
+                            className="input"
+                            name="deliveryDistance"
+                            value={deliveryDistance}
+                            onChange={handleDeliveryDistance}
+                            required
+                        />
+                    </div>
                 </div>
                 <br />
                 <div className="input-field">
                     <label>
                         Amount of items
                     </label>
-                    <input
-                        type="text"
-                        pattern="[0-9]*" 
-                        inputMode="decimal"
-                        placeholder="Type the amount of items"
-                        min="1"
-                        className="input"
-                        name="amountOfItems"
-                        data-testid="amount-items-field"
-                        value={amountOfItems}
-                        onChange={handleAmountOfItems}
-                        required
-                    />
+                    <div className='input-info-field'>
+                        <div className="info-message">{!amountItemsIsValid && "Enter the amount of items"}</div>
+                        <input
+                            type="text"
+                            pattern="[0-9]*"
+                            inputMode="decimal"
+                            placeholder="Type the amount of items"
+                            min="1"
+                            className="input"
+                            name="amountOfItems"
+                            data-testid="amount-items-field"
+                            value={amountOfItems}
+                            onChange={handleAmountOfItems}
+                            required
+                        />
+                    </div>
                 </div>
                 <br />
                 <div className="input-field">
                     <label>
                         Order date and time
                     </label>
+                    <div className='input-info-field'>
                     <input
                         type="datetime-local"
                         className="input"
@@ -157,6 +172,7 @@ const DeliveryFeeCalculator: FC = () => {
                         value={orderDate.toISOString().split('.')[0]}
                         onChange={e => setOrderDate(new Date(e.target.value))}
                         required />
+                    </div>
                 </div>
                 <br />
                 <button className="button"
@@ -167,8 +183,8 @@ const DeliveryFeeCalculator: FC = () => {
             </form >
             <br />
             <div className="delivery-price">
-                <h3>Delivery Price </h3>
-                <h3 className='delivery-price-calculated'>{deliveryPrice}€</h3>
+                <h2>Delivery price </h2>
+                <h2 className='delivery-price-calculated'>{deliveryPrice}€</h2>
             </div>
         </div >
     )
