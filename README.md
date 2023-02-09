@@ -1,7 +1,13 @@
 # Wolt Delivery Fee Calculator
 
 
+![image](https://user-images.githubusercontent.com/95931865/217847085-9724f2c5-0a39-4472-8af0-75890f5aaa4d.png)
+
+
+
 ## Installation and setup
+
+Clone the project repository. 
 
 In the project directory, you can run:
 
