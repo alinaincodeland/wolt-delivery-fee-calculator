@@ -41,7 +41,7 @@ Launches the test runner in the interactive watch mode.
 
 ## Further to-dos: 
 1. Add more unit tests to cover more use cases 
-2. Refactor delivery fee calculation function to me it clearer
+2. Refactor delivery fee calculation function to make it clearer
 3. Enhance user experience
 4. Optional: Add a modal which clarifies how the delivery price is calculated 
 
