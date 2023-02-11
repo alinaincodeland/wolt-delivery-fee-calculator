@@ -16,8 +16,8 @@
 
 ## Installation and setup
 
-- Clone the project repository. 
-- `npm i` to installs all the dependencies
+- Clone the project repository
+- `npm i` to install all the dependencies
 - `npm start` to run the app in the development mode
 - `npm test` to launch the test runner in the interactive watch mode
 
